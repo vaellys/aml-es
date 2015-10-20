@@ -1,6 +1,6 @@
 bmp-logs/
 target/
-java/
+/java
 .settings/
 .sonar/
 .classpath
