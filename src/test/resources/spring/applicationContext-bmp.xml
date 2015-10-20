@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+  
+	  <context:property-placeholder location="classpath:jdbc.properties"/>
+	
+	  <bean id="dataSource_bmp"
+			class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+			<property name="url" value="jdbc:oracle:thin:@10.6.50.110:1521:oradt" />
+			<property name="username" value="bmp" />
+			<property name="password" value="bmp" />
+	 </bean>
+	
+	 <bean id="dataSource_ods"
+			class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+			<property name="url" value="jdbc:oracle:thin:@10.6.50.110:1521:oradt" />
+			<property name="username" value="ods" />
+			<property name="password" value="ods" />
+	 </bean>
+	
+	  <!--  
+	  <bean id="dataSource_ods"
+			class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+			<property name="url" value="jdbc:oracle:thin:@10.6.50.110:1521:oradt" />
+			<property name="username" value="srp" />
+			<property name="password" value="srp" />
+	 </bean>
+	  -->
+	 
+	 <bean id="multipleDataSource" class="com.ist.bmp.sys.datasource.MultipleDataSource">
+        <property name="defaultTargetDataSource" ref="dataSource_bmp"/>
+        <property name="targetDataSources">
+            <map>
+                <entry key="dataSource_bmp" value-ref="dataSource_bmp"/>
+                <entry key="dataSource_ods" value-ref="dataSource_ods"/>
+            </map>
+        </property>
+    </bean>
+    
+	 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="configLocation" value="classpath:mybatis/configuration.xml" />
+			<property name="dataSource" ref="multipleDataSource" />
+	 </bean>
+	 
+	 <bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+			<property name="basePackage" value="com.ist.ioc.dao" /> 
+	 </bean>	
+	 
+	 
+	 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	       <property name="dataSource" ref="multipleDataSource" />
+	 </bean>
+	 
+ 
+	<context:component-scan base-package="com.ist.ioc.service,com.ist.ioc.dao"   /> 
+	
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="multipleDataSource" /> 
+		
+	<tx:annotation-driven transaction-manager="txManager" />
+	 
+	
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>   
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/> 
+	
+	
+	<bean id="sysConfig" class="com.ist.common.properties.XMLProperties">
+		<constructor-arg>
+			<value>classpath:system-config.xml</value>
+		</constructor-arg>
+	</bean>
+	
+     <bean id="sessionMgr" class="com.ist.bmp.sys.session.SessionMgr" scope="singleton">
+	 </bean>
+	 
+</beans>			

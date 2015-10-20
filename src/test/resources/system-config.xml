@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- root element,all element must in this element -->
+<root>
+	<database>
+		<!-- 数据库字符集是：gbk 还是 iso -->
+		<charset>gbk</charset> 
+		<!-- 数据库类型：oracle 还是 db2 -->
+		<dbtype>oracle</dbtype>
+	</database>
+	<alert>
+		<!--报表系统暂时没用： 我的案例添加预警数据范围 1.用户自己的预警及其他用户已处理的 2.用户自己的预警 -->
+		<case_method>2</case_method>
+	</alert>
+	<!-- catch switch(on/off) -->
+	<cache>
+		<jcs>
+		    <!-- 缓存开发：on 开, off 关闭 -->
+			<switch>on</switch>
+		</jcs>
+	</cache>
+	
+	<!-- 报表系统暂时没有用 -->
+	<rules>
+		<!-- 开发期间设置 ： "D:/projects/brms/WebRoot/WEB-INF" -->
+		<!-- 发布道服务器设置 "SysHomeDir" :系统会自动或取规则命名空间作为基础目录 -->
+		<drl_base>E:/java_team/MyEclipse/workspace/AWP/src/com/ist/fdp/rule/common
+		</drl_base>
+		<drl_rmp_base>E:/java_team/MyEclipse
+			6.6/workspace/AWP/src/com/ist/rmp/rule/common
+		</drl_rmp_base>
+		<drl_root>drlfile</drl_root>
+		<drl_src>src</drl_src>
+		<drl_del>delete</drl_del>
+		<drl_target>target</drl_target>
+		<drl_temp>temp</drl_temp>
+		<deploy>
+			<server_1>
+				<server_path>c:/</server_path>
+			</server_1>
+			<server_2>
+				<server_path>c:/</server_path>
+			</server_2>
+		</deploy>
+	</rules>
+	
+	<data> 
+		<!-- data root 数据文件保存的根 -->
+		<dir_root>E:/java_team/IDE/eclipse/workspace/srp/src/main/webapp/WEB-INF/awp_data/</dir_root>
+		<!-- export template dir 相对路径 -->
+		<template>template</template>
+		<!-- edit file in temp dir 相对路径 -->
+		<dir_temp>temp</dir_temp>
+		<dir_report>reporttpl</dir_report>
+		<!-- 存放脚本相对路径 -->
+		<dir_script>script</dir_script>
+		<!-- 存放报表变更报告相对路径 -->
+        <dir_advisory>advisory</dir_advisory>
+		<!-- 上传文件路径 -->
+		<import>d:/temp/upload</import>
+		<!-- 下载文件路径 -->
+		<export>c:/awp_data/download/</export>
+		<new_export>c:/awp_data/download/new/</new_export>
+		<!-- 上传文件大小限定：upload file size. Units:KB -->
+		<size_limit>20000</size_limit>
+		<!-- 上传文件目录创建：create sub dir. year, month, day -->
+		<dir_date>month</dir_date>
+
+	</data>
+    
+	<!-- 报表使用参数 -->
+	<report>
+	    <!-- 模板路径 -->
+		<report_root>report_root/</report_root>
+		<!-- 报表填报模板 -->
+		<report_template>reportTemplate/</report_template>
+		<report_template_xls>xls/</report_template_xls>
+		<report_template_view>view/</report_template_view>
+		<report_template_fill>fill/</report_template_fill>
+         
+		<report_export>export/</report_export>
+		<report_export_standard>export_standard/</report_export_standard>
+		<report_export_5_ot>ot/</report_export_5_ot>
+		<report_export_5>5/</report_export_5>
+		<report_export_5_re>re/</report_export_5_re> 
+		<!-- 多维度模版写入文件地址 -->
+		<mdim_path>mdim/</mdim_path>
+	</report>
+
+
+   
+	<sysparam>
+		<datastartyear>2007</datastartyear>
+		<datastartmonth>01</datastartmonth>
+		<datastartday>01</datastartday>
+	</sysparam>
+	<!-- bm server param -->
+	<bm>
+		<!-- SocketServer 端口 -->
+		<serverhost>127.0.0.1</serverhost>
+		<serverport>10001</serverport>
+	</bm>
+	<avp>
+		<!-- 模板最大查询时间，单位：秒 -->
+		<max_query_time>600</max_query_time>
+	</avp>
+
+	<lucene>
+		<!-- 索引根目录 -->
+		<index_root_path>E:\\test\\CMS</index_root_path>
+	</lucene>
+	<!-- 问题整改 -->
+	<rectify>
+		<!-- 整改员是否可以进行问题跟踪 0-不可以 1-可以 -->
+		<rectifytrack>1</rectifytrack>
+		<!-- 整改的流程表 报告：T06_AUDIT_PROJECT_04 工作底稿 -->
+		<rectifyflowtable>T06_AUDIT_PROJECT_04</rectifyflowtable>
+	</rectify>
+
+	<img>
+		<!-- 小图标目录 -->
+		<root_path>/srp/skin/blue/images/icon</root_path>
+	</img>
+	
+	<!-- 发布目录  -->
+	<root_path>bmp</root_path>
+	
+	<!-- 本工程涉及到哪几个子系统，如果为空值，则是所有子系统，如有则填写为：1,2,3  表示1104总行，分行，金融统计三个子系统  -->
+	<system_project></system_project>
+	
+    <!-- 易客报表服务器信息配载 -->
+	<datanewinfo>
+		<username>administrator</username>
+		<passowrd>IST@123</passowrd>
+		<!-- 易客报表服务器IP -->
+		<serverip>10.112.45.171</serverip>
+		<!-- 易客报表服务器端口 -->
+		<serverport>8081</serverport>
+		<!-- 易客报表服务wsdl 路径-->
+		<wsdlpath>/HappyServer/services/DNService?wsdl</wsdlpath>
+		<!-- 此为门户中的实例，anonymous_为固定字串 -->
+		<authId>anonymous_ISTREPORT</authId>
+		<!-- 此为门户中的实例 -->
+		<targetVolume>ISTREPORT</targetVolume>	
+		<viewServer>/HappyPortal/file/report/reportTypeSelect.jsp</viewServer>
+		<desStr>IST</desStr>	
+	</datanewinfo>
+	
+	<!--批处理进度管理： 查看log详细-->
+	<errorlog_path>E:/</errorlog_path>
+	
+	<category>
+		<!-- 类别树根节点上级机构编码  -->
+		<rootkey>-1</rootkey>
+	</category>
+	<organ>
+		<!-- 机构树根节点机构编码  -->
+		<organkey>9999</organkey>
+		<!-- 机构树根节点上级机构编码  -->
+		<uporgankey>100000</uporgankey>
+	</organ>
+	<!-- 集群配置 -->
+	<cluster>
+		<!-- session配置方式  ip表示通过物理服务器间存储session,不用动 -->
+		<session_type>ip</session_type>
+		<servers>
+			<host>10.6.9.175</host>
+			<url>10.6.9.252:8080,10.6.9.175:8080,10.6.9.154:8088</url>
+		</servers>
+	</cluster>
+	
+	<!-- sigar 获取服务器信息 start -->
+	<sigar>
+		<!-- 定时调度的时间间隔，以毫秒为单位，必须是数字 -->
+		<task_time_interval>1000</task_time_interval>
+	</sigar>
+	<!-- sigar 获取服务器信息 end -->
+	
+	<!-- 是否分级授权 0否，1是 -->
+	<isClassifierAuth>1</isClassifierAuth>
+
+</root>

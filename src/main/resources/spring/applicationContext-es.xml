@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 
+       		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       		http://www.springframework.org/schema/context
+       		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+	<!-- 注入properties配置到Spring中 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="true"></property>
+		<property name="locations">
+			<list>
+				<value>classpath:/es-config.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- 设置es的连接url和httpclient连接属性begin -->
+	<bean id="builder" class="com.ist.assemble.CustomHttpClientConfigBuilder">
+		<constructor-arg>
+			<value>${es.url}</value>
+			<!-- <value>http://10.6.9.188:9200</value> -->
+		</constructor-arg>
+		<property name="readTimeout" value="${es.jest.connTimeout}"></property>
+		<property name="connTimeout" value="${es.jest.readTimeout}"></property>
+		<property name="multiThreaded" value="true"></property>
+	</bean>
+	<!-- 设置es的连接url和httpclient连接属性end -->
+
+	<!-- 定义httpclient配置bean -->
+	<bean id="httpClientConfig" class="io.searchbox.client.config.HttpClientConfig">
+		<constructor-arg>
+			<ref bean="builder" />
+		</constructor-arg>
+	</bean>
+
+	<!-- 创建jest客户工厂begin -->
+	<bean id="jestClientFactory" class="io.searchbox.client.JestClientFactory">
+		<property name="httpClientConfig" ref="httpClientConfig"></property>
+	</bean>
+	<!-- 创建jest客户工厂end -->
+
+	<!-- 获取jest客户端 -->
+	<bean id="jestClient" factory-bean="jestClientFactory"
+		factory-method="getObject" />
+	
+	<!-- 配置分片和副本分片数量 begin-->	
+	<bean id="customImmutableSetting" class="com.ist.assemble.CustomImmutableSetting" scope="singleton">
+		<property name="settings">
+			<map>
+				<entry key="number_of_shards" value="${es.number_of_shards}"></entry>
+				<entry key="number_of_replicas" value="${es.number_of_replicas}"></entry>
+			</map>
+		</property>
+	</bean>
+	<!-- 配置分片和副本分片数量 end-->
+	
+	<!-- <bean id="t00_organ_dimDao" class="com.ist.ioc.dao.T00_organ_dimDao">
+		<property name="dataSource">
+			<ref bean="DataSource" />
+		</property>
+	</bean>
+	
+	<bean id="bmp_user_organ_authorityDao" class="com.ist.ioc.dao.Bmp_user_organ_authorityDao">
+		<property name="dataSource">
+			<ref bean="DataSource" />
+		</property>
+	</bean>
+	
+	<bean id="esSqlHandlerDao" class="com.ist.ioc.dao.EsSqlHandlerDao">
+        <property name="dataSource">
+            <ref bean="DataSource" />
+        </property>
+    </bean>
+    
+    <bean id="esSqlHandlerService"
+        class="com.ist.ioc.service.common.elasticsearch.impl.EsSqlHandlerServiceImpl"></bean>
+
+	<bean id="t00_organ_dimService"
+		class="com.ist.ioc.service.common.elasticsearch.impl.T00_organ_dimServiceImpl"></bean>
+		
+	<bean id="bmp_user_organ_authorityService"
+		class="com.ist.ioc.service.common.elasticsearch.impl.Bmp_user_organ_authorityServiceImpl"></bean> -->
+
+	<bean id="iesServiceImpl"
+		class="com.ist.ioc.service.common.elasticsearch.impl.IESServiceImpl"></bean>
+		
+	<bean id="searchSourceBuilder"
+       class="org.elasticsearch.search.builder.SearchSourceBuilder"></bean>
+</beans>

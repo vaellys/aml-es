@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+	<setting name="cacheEnabled" value="false"/>
+	<setting name="logImpl" value="LOG4J"/>
+	</settings>
+
+   <typeAliases>
+   		<package name="com.ist.dto" />
+    </typeAliases>
+    
+     
+	<typeHandlers>  
+	    <typeHandler javaType="boolean" jdbcType="VARCHAR" handler="org.apache.ibatis.type.BooleanTypeHandler"/>  
+	    <typeHandler javaType="byte[]" jdbcType="BLOB" handler="org.apache.ibatis.type.BlobTypeHandler"/>
+	</typeHandlers> 
+ 
+  <plugins>
+  <plugin interceptor="com.github.pagehelper.PageHelper">
+    <property name="dialect" value="oracle"/>
+    <property name="pageSizeZero" value="true"/>
+    <property name="reasonable" value="true"/>
+  </plugin>
+  
+</plugins>
+
+
+ 
+</configuration>

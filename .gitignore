@@ -1,0 +1,8 @@
+bmp-logs/
+target/
+java/
+.settings/
+.sonar/
+.classpath
+.project
+sonar-project.properties
